@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG
+namespace MTCG.Interface
 {
-    internal class Card
+    public interface IUserInterface
     {
+
     }
 }
