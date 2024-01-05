@@ -14,28 +14,28 @@ Ein zentraler Aspekt meines Designs war die Anwendung von Dependency Injection (
 # Herausforderungen und Lösungen
 
 
-## Unzureichende Model-Definition
-Problem:
+#### Unzureichende Model-Definition
+#### Problem:
 Anfangs waren meine Definitionen in meinem HttpRequest-Modell unzureichend und ineffizient. Es fehlten wichtige Informationen, was zu Problemen bei der Verarbeitung führte.
-Lösung:
+#### Lösung:
 Ich überarbeitete das HttpRequest-Modell, fügte alle notwendigen Informationen hinzu und verbesserte dadurch die Robustheit und Testbarkeit des Systems erheblich.
 
 
 ## Umstrukturierung der Testfälle
-Problem: Meine ersten Testfälle waren aufgrund der Umwandlung von Json-Strukturen in Klassen obsolet geworden.
-Lösung: Ich aktualisierte die Testfälle, sodass sie mit den neuen Klassen kompatibel waren.
+#### Problem: Meine ersten Testfälle waren aufgrund der Umwandlung von Json-Strukturen in Klassen obsolet geworden.
+####Lösung: Ich aktualisierte die Testfälle, sodass sie mit den neuen Klassen kompatibel waren.
 
 ## Json-zu-String-Konvertierung
 
-Problem: Die manuelle Konvertierung von Json zu Strings war fehleranfällig.
-Lösung: Ich verwendete Json-Serialisierung, um den Prozess zu automatisieren und Fehler zu reduzieren.
+#### Problem: Die manuelle Konvertierung von Json zu Strings war fehleranfällig.
+#### Lösung: Ich verwendete Json-Serialisierung, um den Prozess zu automatisieren und Fehler zu reduzieren.
 
 ## Output bei Battle
 
-Problem:
+#### Problem:
 Beim Entwickeln der BattleCards-Funktion in meinem Spiel stieß ich auf ein Problem: Die Funktion gab ursprünglich einen Integer-Wert zurück, um das Ergebnis des Kampfes darzustellen. Dies führte jedoch zu Verwirrungen und Missverständnissen, da die Bedeutung der einzelnen Integer-Werte nicht sofort ersichtlich war. Es war nicht intuitiv, ob eine '0', '1' oder ein anderer Wert für einen Gewinner, Verlierer oder ein Unentschieden stand. Diese Mehrdeutigkeit machte den Code schwer zu verstehen und zu warten, was die Fehleranfälligkeit erhöhte.
 
-Lösung:
+#### Lösung:
 Um dieses Problem zu lösen und den Code klarer und intuitiver zu gestalten, entschied ich mich für die Einführung eines Enums mit dem Namen Winner. Dieses Enum definiert explizit die möglichen Ausgänge eines Kartenduells: Gewinner, Verlierer und Unentschieden. Anstatt also einen abstrakten Integer-Wert zurückzugeben, gibt die BattleCards-Funktion nun einen dieser spezifischen Enum-Werte zurück. Dies macht den Code selbstbeschreibend und verringert das Risiko von Missverständnissen. Wenn ein Entwickler den Code liest oder erweitert, kann er sofort erkennen, was die Rückgabewerte bedeuten
 
 ## Fazit
