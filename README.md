@@ -56,6 +56,13 @@ Der PackageService ist ein zentraler Bestandteil des Spiels, der dafür verantwo
 ## AuthenticationServiceTest:
 Ich habe Tests für den AuthenticationService gewählt, weil dieser Service für die Sicherheit und Zugangskontrolle innerhalb der Anwendung verantwortlich ist. Die Authentifizierung ist ein kritischer Baustein in fast jeder Anwendung, da sie sicherstellt, dass nur berechtigte Benutzer Zugriff auf bestimmte Funktionen und Daten erhalten. Dabei wurden sowohl admin zugriffe als auch User zugriffe getestet. 
 
+# Unique Feature
+In meinem Projekt habe ich ein uniques Feature implementiert, dass die ELO-Berechnung in den Kampflogiken des Spiels integriert. Dieses Feature ist besonders interessant, da es eine dynamische Bewertung der Spielerfähigkeiten in Echtzeit ermöglicht, basierend auf den Ergebnissen ihrer Kämpfe im Spiel.
+
+Die Implementierung der ELO-Berechnung erfolgt während der Kämpfe zwischen den Spielern. Jeder Spieler hat eine ELO-Bewertung, die sich ändert, je nachdem, ob er gewinnt, verliert oder unentschieden spielt. Die ELO-Veränderung wird durch eine Formel berechnet, die den Unterschied zwischen den ELOs der beiden Spieler berücksichtigt. Dies stellt sicher, dass ein Spieler, der gegen einen deutlich stärkeren Gegner gewinnt, mehr ELO-Punkte erhält als bei einem Sieg gegen einen schwächeren Gegner. Dabei gibt es insgesamt für die Spieler 20 Elo zu verfügung, wenn nun die Spieler gleich stark sind bekommt/verlieren beide 10 und bekommen bei einem Unentschieden 0. Wenn es nun einen sehr großen Abstand gibt bekommt derjene mit der höheren Elo 1 Punkt für einen Gewinn, verliert bei 19 Punkte bei einer Niederlage und verliert 9 Punkte bei einem Unteschieden. Für den anderen Spieler ist es immer genau anderes herum, es muss aber immer zumindest 1 Elo Punkt gewonnen bzw verloren egal wie groß der Abstand.
+
+Besonders innovativ ist, wie diese ELO-Änderungen in den Kampflogs reflektiert werden. Nach jedem Kampf wird im Log vermerkt, wie sich die ELOs der beiden Spieler verändert haben. 
+Diese Funktion macht das Spielerlebnis interaktiver und fesselnder, da die Spieler ihre Fortschritte und Entwicklung direkt nachvollziehen können. Zudem fördert sie ein kompetitives Umfeld, in dem die Spieler bestrebt sind, ihre ELO-Bewertung zu verbessern. Insgesamt ist diese ELO-Berechnung und -Integration in die Kampflogs ein Schlüsselmerkmal meines Spiels, das es von anderen abhebt und eine tiefergehende Spielerfahrung bietet.
 
 # Track the time spent with the project
 
