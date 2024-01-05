@@ -87,8 +87,6 @@ namespace MTCG.Services
             if (damage1 == damage2)
                 return Winner.Draw;
             return damage2 > damage1 ? Winner.Second : Winner.First;
-
-
         }
 
         public string GetScoreboard()
@@ -112,6 +110,8 @@ namespace MTCG.Services
             int index = rand.Next(list.Count);
             return list[index];
         }
+
+        private const int standardEloLossOrWin = 10;
 
         public string? WaitOrStartBattle(User user)
         {
@@ -154,32 +154,53 @@ namespace MTCG.Services
                 }
                 Card thisUserCard = RandomElement(thisUserCards);
                 Card otherUserCard = RandomElement(otherUserCards);
+                int thisUserElo = _userDao.GetUserElo(user.Id);
+                int otherUserElo = _userDao.GetUserElo(userInQueue.Id);
+
+
+                int eloCalculation = Math.Abs(thisUserElo - otherUserElo) / 10;
+                int firstUserWinElo;
+                int secondUserWinElo;
+                if (thisUserElo >= otherUserElo) { 
+                    firstUserWinElo = standardEloLossOrWin - eloCalculation > 1 ? standardEloLossOrWin - eloCalculation: 1;
+                    secondUserWinElo = 2 * standardEloLossOrWin - firstUserWinElo;
+                }
+                else
+                {
+                    secondUserWinElo = standardEloLossOrWin - eloCalculation > 1 ? standardEloLossOrWin - eloCalculation : 1;
+                    firstUserWinElo = 2 * standardEloLossOrWin - secondUserWinElo;
+
+                }
                 switch (BattleCards(thisUserCard, otherUserCard))
                 {
                     case Winner.First:
-                        _userDao.changeUserElo(user.Id, win: true);
-                        _userDao.changeUserElo(userInQueue.Id, win: false);
+                        _userDao.changeUserElo(user.Id, firstUserWinElo);
+                        _userDao.changeUserElo(userInQueue.Id, -firstUserWinElo);
                         _userDao.changeWinLosses(user.Id, win: true);
                         _userDao.changeWinLosses(userInQueue.Id, win: false);
-
                         _cardDao.UpdateCardOwner(otherUserCard.Id, user.Id);
 
-                        battleLog.Append($"{user}'s {thisUserCard} won against {userInQueue}'s {otherUserCard}\n");
+                        battleLog.AppendLine($"{user}'s {thisUserCard} (ELO: {thisUserElo} to {_userDao.GetUserElo(user.Id)}) defeated {userInQueue}'s {otherUserCard} (ELO: {otherUserElo} to {_userDao.GetUserElo(userInQueue.Id)}).");
                         break;
+
                     case Winner.Second:
-                        _userDao.changeUserElo(user.Id, win: false);
-                        _userDao.changeUserElo(userInQueue.Id, win: true);
+                        _userDao.changeUserElo(user.Id, -secondUserWinElo);
+                        _userDao.changeUserElo(userInQueue.Id, secondUserWinElo);
                         _userDao.changeWinLosses(user.Id, win: false);
                         _userDao.changeWinLosses(userInQueue.Id, win: true);
-
                         _cardDao.UpdateCardOwner(thisUserCard.Id, userInQueue.Id);
 
-                        battleLog.Append($"{user}'s {thisUserCard} lost against {userInQueue}'s {otherUserCard}\n");
+                        battleLog.AppendLine($"{user}'s {thisUserCard} (ELO: {thisUserElo} to {_userDao.GetUserElo(user.Id)}) was defeated by {userInQueue}'s {otherUserCard} (ELO: {otherUserElo} to {_userDao.GetUserElo(userInQueue.Id)}).");
                         break;
+
                     case Winner.Draw:
-                        battleLog.Append($"{user}'s {thisUserCard} drawed against {userInQueue}'s {otherUserCard}\n");
+                        _userDao.changeUserElo(user.Id, -(thisUserElo - otherUserElo) / 10);
+                        _userDao.changeUserElo(userInQueue.Id, (thisUserElo - otherUserElo) / 10);
+
+                        battleLog.AppendLine($"It's a draw! {user}'s {thisUserCard} (ELO: {thisUserElo} to {_userDao.GetUserElo(user.Id)}) and {userInQueue}'s {otherUserCard} (ELO: {otherUserElo} to {_userDao.GetUserElo(userInQueue.Id)}).");
                         break;
-                } 
+                }
+
 
             }
             battleLog.Append("Battle reached max round (100)\n");
