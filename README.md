@@ -14,7 +14,7 @@ Ein zentraler Aspekt meines Designs war die Anwendung von Dependency Injection (
 # Herausforderungen und Lösungen
 
 
-#### Unzureichende Model-Definition
+## Unzureichende Model-Definition
 #### Problem:
 Anfangs waren meine Definitionen in meinem HttpRequest-Modell unzureichend und ineffizient. Es fehlten wichtige Informationen, was zu Problemen bei der Verarbeitung führte.
 #### Lösung:
