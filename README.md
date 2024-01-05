@@ -3,11 +3,11 @@ Design und Architektur
 Zu Beginn legte ich eine Basisstruktur für den Server fest, der HTTP-Anfragen verarbeiten kann. Mir war es wichtig, eine klare Trennung der Zuständigkeiten vorzunehmen, daher teilte ich die Logik in verschiedene Schichten auf:
 
 # Controller: Hier definierte ich Endpunkte, die die HTTP-Anfragen bearbeiten.
-DAL (Data Access Layer): Diese Schicht enthielt Klassen für den Datenzugriff.
-Interface: Ich erstellte Schnittstellen, um Abhängigkeiten zwischen Komponenten zu minimieren und Testbarkeit zu verbessern.
-Models: In diesem Bereich entwickelte ich die Kernentitäten wie Karten und Benutzer.
-Services: Die Geschäftslogik des Spiels wurde hier implementiert.
-Dependency Injection
+##### DAL (Data Access Layer): Diese Schicht enthielt Klassen für den Datenzugriff.
+##### Interface: Ich erstellte Schnittstellen, um Abhängigkeiten zwischen Komponenten zu minimieren und Testbarkeit zu verbessern.
+##### Models: In diesem Bereich entwickelte ich die Kernentitäten wie Karten und Benutzer.
+##### Services: Die Geschäftslogik des Spiels wurde hier implementiert.
+## Dependency Injection
 Ein zentraler Aspekt meines Designs war die Anwendung von Dependency Injection (DI), um die Kopplung zwischen den Klassen zu verringern und eine höhere Flexibilität zu erreichen. DI ermöglichte es mir, Abhängigkeiten zur Laufzeit bereitzustellen, was die UnitTests vereinfachte und die Wartung des Codes verbesserte.
 
 
