@@ -24,6 +24,7 @@
                         new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "RegularGoblin", 50),
                         new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "WaterTroll", 40)
 
+
                     },
                 new List<Card>
                 {
@@ -32,7 +33,8 @@
                         "WaterGoblin",
                         55,
                         CardType.Goblin,
-                        Element.Water                        ),
+                        Element.Water 
+                        ),
                     new Card(
                         "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "WaterSpell",

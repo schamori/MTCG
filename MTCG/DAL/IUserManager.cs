@@ -18,13 +18,14 @@ namespace MTCG.DAL
         string GetGameScoreboard();
         string GetUserScore(int userId);
 
-        void changeUserElo(int userId, bool win);
+        void changeUserElo(int userId, int amount);
 
         void changeWinLosses(int userId, bool win);
         void UpdateUserData(string username, UserData userData);
 
         string? GetUserData(string username);
 
+        int GetUserElo(int userId);
     }
 }
 
