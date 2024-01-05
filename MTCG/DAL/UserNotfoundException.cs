@@ -4,9 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.Interface
+namespace MTCG.DAL
 {
-    internal interface ITradingInterface
+    public class UserNotfoundException: Exception
     {
+        public UserNotfoundException()
+        {
+
+        }
     }
 }

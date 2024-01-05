@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTCG.Interface
+namespace MTCG.Models
 {
-    public interface IUserInterface
-    {
-
-    }
+    public record class UserData(string Name, string Bio, string Image);
 }

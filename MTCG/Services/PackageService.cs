@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,26 +6,27 @@ using System.Threading.Tasks;
 using MTCG.Interface;
 using MTCG.Models;
 using System.Text.RegularExpressions;
-
+using MTCG.DAL;
 
 
 namespace MTCG.Services
 {
-    public class PackageService: IPackagesService
+    public class PackageService: IPackageService
     {
         private const string NamesPattern = @"(?=[A-Z])";
+        private readonly ICardManager _cardsManager;
 
-        public PackageService()
+        public PackageService(ICardManager cardsManager)
         {
-
+            _cardsManager = cardsManager;
         }
 
-        public List<Card> CreateNewPackage(List<Dictionary<string, string>> Cards)
+        public List<Card> CreateNewPackage(List<RawRequestCard> Cards)
         {
             List<Card> Package = new List<Card>();
-            foreach (Dictionary<string, string> card in Cards)
+            foreach (var card in Cards)
             {
-                string[] splittedNames = Regex.Split(card["Name"], NamesPattern);
+                string[] splittedNames = Regex.Split(card.Name, NamesPattern);
                 if (splittedNames.Length == 2)
                 {
                     Element element;
@@ -52,13 +53,13 @@ namespace MTCG.Services
                         default:
                             throw new ArgumentException("Card Name not known!");
                     }
-                    // Already checked if the Names are valid above
-                    Enum.TryParse(splittedNames[1], out Species species);
-                    Package.Add(new Card(card["Id"], card["Name"],
-                            float.Parse(card["Damage"]), CardType.Monster, 
-                            element, species));
 
-                } else if (splittedNames.Length == 3)
+                    // Already checked if the Names are valid above
+                    Enum.TryParse(splittedNames[1], out CardType type);
+
+                    Package.Add(new Card(card.Id, card.Name, card.Damage, type, element));
+                }
+                else if (splittedNames.Length == 3)
                 {
                     if (!Enum.TryParse(splittedNames[1], out Element element))
                     {
@@ -66,24 +67,38 @@ namespace MTCG.Services
                     }
                     if (splittedNames[2] == "Spell")
                     {
-                        Package.Add(new Card(card["Id"], card["Name"], 
-                            float.Parse(card["Damage"]), CardType.Spell, element));
+                        Package.Add(new Card(card.Id, card.Name, card.Damage, CardType.Spell, element));
                         continue;
                     }
-                    if (!Enum.TryParse(splittedNames[2], out Species species))
+                    if (!Enum.TryParse(splittedNames[2], out CardType type))
                     {
                         throw new ArgumentException("Species not known!");
                     }
-                    Package.Add(new Card(card["Id"], card["Name"],
-                            float.Parse(card["Damage"]), CardType.Monster,
-                            element, species));
-                } else
-                {
-                    throw new ArgumentException("Card Name not known!"); 
+                    Package.Add(new Card(card.Id, card.Name, card.Damage, type, element));
                 }
-
+                else
+                {
+                    throw new ArgumentException("Card Name not known!");
+                }
             }
             return Package;
+        }
+
+
+        public bool SavePackage(List<Card> Cards)
+        {
+            return _cardsManager.InsertCards(Cards);
+        }
+        public bool isPackageAvaliabe()
+        {
+            return _cardsManager.GetFreePackage() != null;
+        }
+
+        public string AssignUserToPackage(int userId)
+        {
+            List<Card> cards = _cardsManager.GetFreePackage(userId)!;
+            return CardHelper.MapCardsToResponse(cards)!;
+
         }
     }
 }

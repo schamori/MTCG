@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 
 namespace MTCG.Models
 {
-    public record class Credentials(string Username, string Password);
+    public record class Trade(string Id, string CardToTrade, MonsterOrSpell Type, int MinimumDamage);
+
 }

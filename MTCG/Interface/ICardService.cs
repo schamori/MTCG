@@ -8,6 +8,15 @@ namespace MTCG.Interface
 {
     public interface ICardService
     {
+        string? GetUserCards(int userId);
+        string? GetUserDeck(int userId, bool plain);
+
+        bool areCardsAvaliable(List<string> cardIds, int userId);
+        bool SetUserDeck(int userId, List<string> cardIds);
+
+        bool isCardfromUser(string cardId, int userId);
+
+        bool isCardinDeck(string cardId, int userId);
 
     }
 }

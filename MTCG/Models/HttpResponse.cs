@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace MTCG.Models
 {
-    public record class Credentials(string Username, string Password);
+    public record class HttpResponse (StatusCode StatusCode, string? Payload = null);
 }

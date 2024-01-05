@@ -1,6 +1,13 @@
 ﻿public enum CardType
 {
-    Monster,
+    Goblin,
+    Dragon,
+    Wizzard,
+    Ork,
+    Knight,
+    Kraken,
+    Elf,
+    Troll,
     Spell
 }
 

@@ -6,24 +6,32 @@ using System.Threading.Tasks;
 
 namespace MTCG.Models
 {
-    public record class Card
+    public record Card(string Id, string Name, CardType Type, Element Element)
     {
-        public string Id { get; init; }
-        public string Name { get; init; }
-        public float Damage { get; init; }
-        public CardType Type { get; init; }
-        public Element Element { get; init; }
-        public Species? Species { get; init; }
+        private float _damage;
 
-        public Card(string id, string name, float damage,
-            CardType type, Element element, Species? species = null)
+        public float Damage
         {
-            Id = id;
-            Name = name;
-            Damage = damage;
-            Type = type;
-            Element = element;
-            Species = species;
+            get => _damage;
+            private init
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Damage cannot be less than 0.");
+                }
+                _damage = value;
+            }
         }
-    }
+
+        public Card(string id, string name, float damage, CardType type, Element element)
+            : this(id, name, type, element)
+        {
+            Damage = damage;
+        }
+
+        public override string ToString()
+        {
+            return $"Card(Name: {Name}, Damage: {Damage})";
+        }
+}
 }

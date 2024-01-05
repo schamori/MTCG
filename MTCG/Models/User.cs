@@ -7,25 +7,13 @@ using System.Threading.Tasks;
 
 namespace MTCG.Models
 {
-
-
-
-    public class User
+    public record User(int Id, string username, string Token, int Coins, int Elo, bool isAdmin)
     {
-        public Stack Cards { get; }
-        public int Coints { get; set; }
-        public string Name { get; }
-
-        public string Password { get; }
-
-
-        public User(string Username, string Password, int coints)
+        public override string ToString()
         {
-            Name = Username;
-            this.Password = Password;
-            Coints = coints;
-            Cards = new Stack();
+            return username;
         }
-
     }
+
+
 }

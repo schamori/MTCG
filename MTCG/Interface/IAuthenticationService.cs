@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MTCG.Models;
+
 namespace MTCG.Interface
 {
-    public interface IPackagesService
+    public interface IAuthenticationService
     {
-        List<Card> CreateNewPackage(List<Dictionary<string, string>> Cards);
-
+        User AuthenticateUser(string? authtoken, bool isAdmin);
     }
 }
