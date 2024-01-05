@@ -14,7 +14,6 @@ namespace UnitTestMITCG
         public void Setup()
         {
 
-            var mockController = new Mock<ControllerBase>();
 
             _httpService = new HttpService(new Mock<ControllerBase>().Object, new Mock<ControllerBase>().Object,
             new Mock<ControllerBase>().Object, new Mock<ControllerBase>().Object, new Mock<ControllerBase>().Object);
