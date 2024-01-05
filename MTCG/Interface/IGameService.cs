@@ -9,6 +9,11 @@ namespace MTCG.Interface
 {
     public interface IGameService
     {
-        int BattleCards(Card card1, Card card2);
+        Winner BattleCards(Card card1, Card card2);
+
+        string GetUserScore(int userId);
+        string GetScoreboard();
+
+        string? WaitOrStartBattle(User user);
     }
 }
