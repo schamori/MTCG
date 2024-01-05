@@ -120,5 +120,9 @@ Besonders innovativ ist, wie diese ELO-Änderungen in den Kampflogs reflektiert 
 ### Insgesamt (60 Stunden).
 
 
+# Github
+https://github.com/schamori/MTCG/edit/dev/README.md
+
+
 
 
