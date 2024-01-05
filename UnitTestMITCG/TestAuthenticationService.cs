@@ -43,17 +43,17 @@ namespace UnitTestMITCG
             // assert
             Assert.That(actualResponse, Is.EqualTo(expectedResponse));
         }
+        [Test]
+
         public void AuthenticateAdminUser_WithUserToken_ReturnsException()
         {
             // arrange
             var userManager = new Mock<IUserManager>();
 
-            var user = new User(1, "test", "psd", 20, 100, false);
+            var user = new User(1, "testToken", "psd", 20, 100, false);
 
-            userManager.Setup(um => um.GetUserByAuthToken("invalidtestToken")).Returns(user);
-
+            userManager.Setup(um => um.GetUserByAuthToken("testToken")).Returns(user);
             IAuthenticationService _authenticationService = new AuthenticationService(userManager.Object);
-            var actualResponse = _authenticationService.AuthenticateUser("testToken", true);
 
             try
             {
@@ -70,22 +70,22 @@ namespace UnitTestMITCG
                 Assert.Fail($"Unexpected exception type: {ex.GetType()}");
             }
         }
+        [Test]
+
         public void AuthenticateUser_WithInValidToken_ReturnsException()
         {
             // arrange
             var userManager = new Mock<IUserManager>();
 
-            var user = new User(1, "test", "psd", 20, 100, false);
+            var user = new User(1, "testToken", "psd", 20, 100, false);
             var expectedResponse = user;
 
-            userManager.Setup(um => um.GetUserByAuthToken("invalidtestToken")).Returns(user);
-
+            userManager.Setup(um => um.GetUserByAuthToken("testToken")).Returns(user);
             IAuthenticationService _authenticationService = new AuthenticationService(userManager.Object);
-            var actualResponse = _authenticationService.AuthenticateUser("testToken", false);
 
             try
             {
-                _authenticationService.AuthenticateUser("testToken", false);
+                _authenticationService.AuthenticateUser("invalidtestToken", false);
                 Assert.Fail("Expected AccessTokenException was not thrown.");
             }
             catch (AccessTokenException ex)
