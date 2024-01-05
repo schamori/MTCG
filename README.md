@@ -61,22 +61,31 @@ Ich habe Tests für den AuthenticationService gewählt, weil dieser Service für
 
 September
 10. September: 2 Stunden
+
 15. September: 1 Stunde
+    
 26. September: 1 Stunde
+    
 
 Oktober
 6. Oktober: 1 Stunde
+
 17. Oktober: 2 Stunden
+    
 24. Oktober bis 31. Oktober: 3 Stunden täglich (21 Stunden gesamt)
 
 November
 1. November bis 3. November: 3 Stunden täglich (9 Stunden gesamt)
+   
 14. November: 1 Stunde
+    
 25. November: 1 Stunde
     
 Dezember
 5. Dezember: 1 Stunde
+
 16. Dezember: 2 Stunden
+    
 27. Dezember: 2 Stunden
     
 Januar
