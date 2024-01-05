@@ -1,51 +1,28 @@
-namespace UnitTestMITCG
+  namespace UnitTestMITCG
 {
     public class TestPackageService
     {
 
-        private IPackagesService package;
+        private IPackageService _package;
         [SetUp]
         public void Setup()
         {
-            package = new PackageService();
+            var mockController = new Mock<ICardManager>();
+
+            _package = new PackageService(mockController.Object);
 
         }
         static object[] CreatePackagesCases =
         {
             new object[] 
             {
-                new List<Dictionary<string, string>>
+                new List<RawRequestCard>
                     {
-                        new Dictionary<string, string>
-                        {
-                            { "Id", "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
-                            { "Name", "WaterGoblin" },
-                            { "Damage", "55" }
-                        },
-                        new Dictionary<string, string>
-                        {
-                            { "Id", "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
-                            { "Name", "WaterSpell" },
-                            { "Damage", "75" }
-                        },
-                        new Dictionary<string, string>
-                        {
-                            { "Id", "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
-                            { "Name", "Knight" },
-                            { "Damage", "100" }
-                        },
-                        new Dictionary<string, string>
-                        {
-                            { "Id", "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
-                            { "Name", "RegularGoblin" },
-                            { "Damage", "50" }
-                        },
-                        new Dictionary<string, string>
-                        {
-                            { "Id", "3fa85f64-5717-4562-b3fc-2c963f66afa6" },
-                            { "Name", "WaterTroll" },
-                            { "Damage", "40" }
-                        }
+                        new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "WaterGoblin", 55),
+                        new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "WaterSpell", 75),
+                        new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "Knight", 100),
+                        new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "RegularGoblin", 50),
+                        new RawRequestCard("3fa85f64-5717-4562-b3fc-2c963f66afa6", "WaterTroll", 40)
 
                     },
                 new List<Card>
@@ -54,10 +31,8 @@ namespace UnitTestMITCG
                         "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "WaterGoblin",
                         55,
-                        CardType.Monster,
-                        Element.Water,
-                        Species.Goblin
-                        ),
+                        CardType.Goblin,
+                        Element.Water                        ),
                     new Card(
                         "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "WaterSpell",
@@ -69,25 +44,22 @@ namespace UnitTestMITCG
                         "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "Knight",
                         100,
-                        CardType.Monster,
-                        Element.Regular,
-                        Species.Knight
-                    ),
+                        CardType.Knight,
+                        Element.Regular                    
+                        ),
                     new Card(
                         "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "RegularGoblin",
                         50,
-                        CardType.Monster,
-                        Element.Regular,
-                        Species.Goblin
+                        CardType.Goblin,
+                        Element.Regular
                     ),
                     new Card(
                         "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "WaterTroll",
                         40,
-                        CardType.Monster,
-                        Element.Water,
-                        Species.Troll
+                        CardType.Troll,
+                        Element.Water
                     )
 
                 }
@@ -97,9 +69,9 @@ namespace UnitTestMITCG
 
         [Test]
         [TestCaseSource(nameof(CreatePackagesCases))]
-        public void TestCreatePackages(List<Dictionary<string, string>> Cards, List<Card> expectedCard)
+        public void TestCreatePackages(List<RawRequestCard> Cards, List<Card> expectedCard)
         {
-            List<Card> newPackages = package.CreateNewPackage(Cards);
+            List<Card> newPackages = _package.CreateNewPackage(Cards);
             for (int i = 0; i < Cards.Count; i++)
                 Assert.That(expectedCard[i], Is.EqualTo(newPackages[i]));
         }

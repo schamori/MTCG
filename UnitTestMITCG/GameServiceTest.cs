@@ -12,7 +12,7 @@ namespace UnitTestMITCG
         [SetUp]
         public void Setup()
         {
-            game = new GameService();
+            game = new GameService(new Mock<IUserManager>().Object, new Mock<ICardManager>().Object);
         }
         // Id is irrelavant in this test case
         private const string Id = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
@@ -23,54 +23,48 @@ namespace UnitTestMITCG
                     Id,
                     "WaterTroll",
                     50,
-                    CardType.Monster,
-                    Element.Water,
-                    Species.Troll
+                    CardType.Troll,
+                    Element.Water
                     ),
                 new Card(
                     Id,
                     "RegularGoblin",
                     50,
-                    CardType.Monster,
-                    Element.Regular,
-                    Species.Goblin),
-                2
+                    CardType.Goblin,
+                    Element.Regular),
+                Winner.Draw
             },
             new object[] {
                 new Card(
                     Id,
                     "FireGoblin",
                     0,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Goblin
+                    CardType.Goblin,
+                    Element.Fire
                     ),
                 new Card(
                     Id,
                     "Dragon",
                     50,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Dragon),
-                1
+                    CardType.Dragon,
+                    Element.Fire),
+                Winner.Second
             },
             new object[] {
                 new Card(
                     Id,
                     "Wizzard",
                     0,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Wizzard
+                    CardType.Wizzard,
+                    Element.Fire
                     ),
                 new Card(
                     Id,
                     "FireOrk",
                     50,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Ork),
-                0
+                    CardType.Ork,
+                    Element.Fire),
+                Winner.First
             },
             new object[] {
                 new Card(
@@ -82,12 +76,11 @@ namespace UnitTestMITCG
                     ),
                 new Card(
                     Id,
-                    "Knights",
+                    "Knight",
                     50,
-                    CardType.Monster,
-                    Element.Regular,
-                    Species.Knight),
-                0
+                    CardType.Knight,
+                    Element.Regular),
+                Winner.First
             },
              new object[] {
                 new Card(
@@ -101,29 +94,24 @@ namespace UnitTestMITCG
                     Id,
                     "Kraken",
                     0,
-                    CardType.Monster,
-                    Element.Water,
-                    Species.Kraken),
-                1
+                    CardType.Kraken,
+                    Element.Water),
+                Winner.Second
             },
              new object[] {
                 new Card(
                     Id,
                     "FireElf",
                     0,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Elf
-                    ),
+                    CardType.Elf,
+                    Element.Fire),
                 new Card(
                     Id,
                     "Dragon",
                     100,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Dragon
-                    ),
-                0
+                    CardType.Dragon,
+                    Element.Fire),
+                Winner.First
              },
              new object[] {
                 new Card(
@@ -137,19 +125,17 @@ namespace UnitTestMITCG
                     Id,
                     "Dragon",
                     30,
-                    CardType.Monster,
-                    Element.Fire,
-                    Species.Dragon),
-                0
+                    CardType.Dragon,
+                    Element.Fire),
+                Winner.First
              },
              new object[] {
                 new Card(
                     Id,
                     "Knight",
                     10,
-                    CardType.Monster,
-                    Element.Regular,
-                    Species.Knight
+                    CardType.Knight,
+                    Element.Regular
                     ),
                 new Card(
                     Id,
@@ -157,7 +143,7 @@ namespace UnitTestMITCG
                     30,
                     CardType.Spell,
                     Element.Water),
-                0
+                Winner.Second
              },
              new object[] {
                 new Card(
@@ -171,20 +157,55 @@ namespace UnitTestMITCG
                     Id,
                     "Knight",
                     80,
-                    CardType.Monster,
-                    Element.Regular,
-                    Species.Knight
+                    CardType.Knight,
+                    Element.Regular
                     ),
 
-                2
+                Winner.Draw
+             },
+             new object[] {
+                new Card(
+                    Id,
+                    "Knight",
+                    20,
+                    CardType.Knight,
+                    Element.Regular
+                    ),
+                new Card(
+                    Id,
+                    "Knight",
+                    80,
+                    CardType.Knight,
+                    Element.Regular
+                    ),
+
+                Winner.Second
+             },
+             new object[] {
+               new Card(
+                    Id,
+                    "Knight",
+                    80,
+                    CardType.Knight,
+                    Element.Regular
+                   ),
+                new Card(
+                    Id,
+                    "FireSpell",
+                    20,
+                    CardType.Spell,
+                    Element.Fire
+                    ),
+               Winner.Draw
              }
+        
            };
 
         [Test]
         [TestCaseSource(nameof(BattleCardsCases))]
-        public void TestBattleCards(Card card1, Card card2, int winner)
+        public void TestBattleCards(Card card1, Card card2, Winner winner)
         {
-            Assert.That(winner, Is.EqualTo(game.BattleCards(card1, card2)));
+            Assert.That(game.BattleCards(card1, card2), Is.EqualTo(winner));
         }
     }
 }
