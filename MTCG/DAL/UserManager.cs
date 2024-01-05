@@ -27,6 +27,7 @@ namespace MTCG.DAL
         private const string GetUserCommand = "SELECT * FROM users WHERE id=@userId";
         private const string GetGameScoreboardCommand = "SELECT * FROM users ORDER BY elo DESC";
 
+
         private const string GetUserEloCommand = "SELECT elo FROM users WHERE id=@userId";
         private const string UpdateEloCommand = @"UPDATE users SET elo = @elo WHERE id=@userId";
 
@@ -205,21 +206,18 @@ namespace MTCG.DAL
             else
                 throw new UserNotfoundException();
         }
-        private int _lossingElo = 5;
-        private int _winningElo = 3;
-        public void changeUserElo(int userId, bool win)
+        public void changeUserElo(int userId, int amount)
         {
             using var connection = new NpgsqlConnection(_connectionString);
             connection.Open();
             int elo = GetUserElo(connection, userId);
             int newElo;
-            if (win)
-                newElo = elo + _winningElo;
-            else
-                if (elo - _lossingElo > 0)
-                newElo = elo - _lossingElo;
+
+            if (elo + amount > 0)
+                newElo = elo + amount;
             else
                 newElo = 0;
+
             using var cmd = new NpgsqlCommand(UpdateEloCommand, connection);
             cmd.Parameters.AddWithValue("elo", newElo);
             cmd.Parameters.AddWithValue("userId", userId);
@@ -319,5 +317,26 @@ namespace MTCG.DAL
                 throw new UserNotfoundException();
             }
         }
+
+        public int GetUserElo(int userId)
+        {
+            using var connection = new NpgsqlConnection(_connectionString);
+            connection.Open();
+
+            using var cmd = new NpgsqlCommand(GetUserEloCommand, connection);
+            cmd.Parameters.AddWithValue("userId", userId);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return Convert.ToInt32(reader["elo"]);
+            }
+            else
+            {
+                throw new UserNotfoundException();
+            }
+        }
+       
+        
     }
 }
