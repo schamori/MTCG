@@ -90,7 +90,7 @@ Ich habe Tests für den AuthenticationService gewählt, weil dieser Service für
     
 ### Januar
 1. Januar bis 9. Januar: jeweils 2 Stunden täglich (18 Stunden gesamt)
-Insgesamt (60 Stunden).
+### Insgesamt (60 Stunden).
 
 
 
