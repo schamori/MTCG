@@ -59,6 +59,8 @@ namespace MTCG.Controller
 
             cardToTradeId = cardToTradeId.Trim('\\').Trim('\"');
 
+
+
             User user = _authenticationService.AuthenticateUser(authToken, false);
             Trade? trade = _tradingService.GetTrade(tradeId);
             if (trade == null) return new HttpResponse(StatusCode.NotFound, "The provided deal ID was not found.");

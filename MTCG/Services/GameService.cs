@@ -111,7 +111,7 @@ namespace MTCG.Services
             return list[index];
         }
 
-        private const int standardEloLossOrWin = 10;
+        private const int standardEloChanges = 10;
 
         public string? WaitOrStartBattle(User user)
         {
@@ -127,12 +127,11 @@ namespace MTCG.Services
                 {
                     Thread.Sleep(30);
                 }
-                return playerLogsBattle[user.Id];
+                string thisUserBattle = playerLogsBattle[user.Id];
+                playerLogsBattle.Remove(user.Id);
+                return thisUserBattle;
             }
             _readMutex.ReleaseMutex();
-
-
-
             User userInQueue;
             playerBattleQueue.TryDequeue(out userInQueue!);
             StringBuilder battleLog = new();
@@ -150,7 +149,6 @@ namespace MTCG.Services
                     battleLog.Append($"{userInQueue} ran out of cards\n");
                     playerLogsBattle[userInQueue.Id] = battleLog.ToString();
                     return battleLog.ToString();
-
                 }
                 Card thisUserCard = RandomElement(thisUserCards);
                 Card otherUserCard = RandomElement(otherUserCards);
@@ -162,13 +160,13 @@ namespace MTCG.Services
                 int firstUserWinElo;
                 int secondUserWinElo;
                 if (thisUserElo >= otherUserElo) { 
-                    firstUserWinElo = standardEloLossOrWin - eloCalculation > 1 ? standardEloLossOrWin - eloCalculation: 1;
-                    secondUserWinElo = 2 * standardEloLossOrWin - firstUserWinElo;
+                    firstUserWinElo = standardEloChanges - eloCalculation > 1 ? standardEloChanges - eloCalculation: 1;
+                    secondUserWinElo = 2 * standardEloChanges - firstUserWinElo;
                 }
                 else
                 {
-                    secondUserWinElo = standardEloLossOrWin - eloCalculation > 1 ? standardEloLossOrWin - eloCalculation : 1;
-                    firstUserWinElo = 2 * standardEloLossOrWin - secondUserWinElo;
+                    secondUserWinElo = standardEloChanges - eloCalculation > 1 ? standardEloChanges - eloCalculation : 1;
+                    firstUserWinElo = 2 * standardEloChanges - secondUserWinElo;
 
                 }
                 switch (BattleCards(thisUserCard, otherUserCard))
